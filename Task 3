@@ -1,0 +1,74 @@
+#include <Servo.h>
+#include "SR04.h"
+
+const int servoPin = 9;
+const int trigPin = 12;
+const int echoPin = 13;
+int enA = 3;
+int DIRA = 5;
+int DIRB = 4;
+
+Servo myServo;
+SR04 ultraSonicSensor = SR04(echoPin, trigPin);
+
+long distance;
+int pos;
+
+void setup(){
+  myServo.attach(servoPin);
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(enA, OUTPUT);
+  pinMode(DIRA, OUTPUT);
+  pinMode(DIRB, OUTPUT);
+}
+
+void loop(){
+  analogWrite(enA, 150);
+  digitalWrite(DIRA, LOW);
+  digitalWrite(DIRB, HIGH);
+  
+  distance = ultraSonicSensor.distance();
+  
+  if (distance <= 15){
+    for (pos = 90; pos <=135; pos += 1){ // turn left
+      myServo.write(pos);
+      delay(20);
+    }
+    delay(1000);
+    for (pos = 135; pos >= 90; pos -= 1){ // go straight diagonally
+      myServo.write(pos);
+      delay(20);
+    }
+    delay(1000);
+    for (pos = 90; pos >= 45; pos -=1){ // turn right to come in parallel with original path
+      myServo.write(pos);
+      delay(20);
+    }
+    delay(1000);
+    for(pos = 45; pos <= 90; pos += 1){ // go straight in parallel with original path
+      myServo.write(pos);
+      delay(20);
+    }
+    delay(1000);
+    for (pos = 90; pos >= 45; pos -=1){ // turn right towards original path
+      myServo.write(pos);
+      delay(20);
+    }
+    delay(1000);
+    for(pos = 45; pos <= 90; pos += 1){ // go straight diagonally towards original path
+      myServo.write(pos);
+      delay(20);
+    }
+    delay(1000);
+    for (pos = 90; pos <=135; pos += 1){ // turn left to come on original path
+      myServo.write(pos);
+      delay(20);
+    }
+    delay(1000);
+    for (pos = 135; pos >= 90; pos -= 1){ // go straight to continue on original path
+      myServo.write(pos);
+      delay(20);
+    }
+  }  
+}  
