@@ -1,4 +1,59 @@
-Testing
-Testing 2 
-Testing 3
-testing - kev 
+TASK 1: CONTROL USING IR
+
+#include "IRremote.h"
+#define Button_1 0xFF30CF
+#define Button_2 0xFF18E7
+int speedPin=5;
+int dir1=4;
+int dir2=3;
+int mSpeed=255;
+
+uint32_t Previous;
+
+int receiver = 13; // Signal Pin of IR receiver to Arduino Digital Pin 11
+
+/*-----( Declare objects )-----*/
+IRrecv irrecv(receiver);     // create instance of 'irrecv'
+decode_results results;      // create instance of 'decode_results'
+
+void setup()   /*----( SETUP: RUNS ONCE )----*/
+{
+  Serial.begin(9600);
+  Serial.println("IR Receiver Button Decode"); 
+ pinMode(speedPin, OUTPUT);
+  pinMode(dir1, OUTPUT);
+  pinMode(dir2, OUTPUT);
+  Serial.begin(9600);
+  
+  irrecv.enableIRIn(); // Start the receiver
+  
+
+}/*--(end setup )---*/
+
+
+void loop()   /*----( LOOP: RUNS CONSTANTLY )----*/
+{
+  if (irrecv.decode(&results)) // have we received an IR signal?
+
+  {
+    if (results.value == 0xFFFFFFFF){
+      results.value = Previous;
+    }
+    switch (results.value) {
+ case Button_1:   
+ Serial.println("Clockwise");
+ digitalWrite(dir1, HIGH);
+ digitalWrite(dir2, LOW);
+ analogWrite(speedPin,mSpeed);
+ break;
+ case Button_2:
+  Serial.println("CounterClockwise");
+ digitalWrite(dir1, LOW);
+ digitalWrite(dir2, HIGH);
+ analogWrite(speedPin,mSpeed);
+ Serial.println("2");
+ break;
+    }
+    irrecv.resume(); // receive the next value 
+}
+}
