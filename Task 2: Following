@@ -1,0 +1,84 @@
+#include <Servo.h>
+#define ENABLE 5
+#define DIRA 3
+#define DIRB 4
+int fan = 100;
+
+int light1 = A0;
+int light2 = A1;
+int read1;
+int read2;
+int threshold;
+int diff;
+
+Servo myservo;
+int pos = 90;
+int change;
+
+void setup() {
+
+  pinMode(ENABLE, OUTPUT);
+  pinMode(DIRA, OUTPUT);
+  pinMode(DIRB, OUTPUT);
+
+  Serial.begin(9600);
+
+  myservo.attach(6);
+  myservo.write(90);
+
+  //Calibration
+  for(int i = 0; i < 10; i++){
+    read1 += analogRead(light1);
+    read2 += analogRead(light2);
+  }
+  threshold = abs(read1+read2)/2;
+}
+
+void loop() {
+  for(int i = 0; i < 20; i++){
+    read1 += analogRead(light1);
+    read2 += analogRead(light2);
+  }
+
+  read1 = read1/20;
+  read2 = read2/20;
+
+  while(read1 > threshold || read2 > threshold){
+    analogWrite(ENABLE, fan);
+
+    //Swap DIRA and DIRB signals if motor spinning in opposite direction
+    digitalWrite(DIRA, HIGH);
+    digitalWrite(DIRB, LOW);
+    delay(1000);
+
+    diff = abs(read1 - read2);
+    //diff value may require calibration
+    change = map(diff, 0, 600, 0, 60);
+    
+    //Left turn
+    if(read1 > light2 && diff > threshold){
+      pos = pos + change;
+      if (pos >= 150){pos = 150;}
+      myservo.write(pos);
+      delay(500);
+    }
+
+    //Right turn
+    if(read1 < light2 && diff > threshold){
+      pos = pos - change;
+      if (pos <= 30){pos = 30;}
+      myservo.write(pos);
+      delay(500);
+    }
+
+    for(int i = 0; i < 20; i++){
+      read1 += analogRead(light1);
+      read2 += analogRead(light2);
+    }
+    read1 = read1/20;
+    read2 = read2/20;
+  }
+
+  analogWrite(ENABLE, LOW);
+  delay(2000);
+}
