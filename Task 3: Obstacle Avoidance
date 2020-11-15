@@ -12,7 +12,7 @@ Servo myServo;
 SR04 ultraSonicSensor = SR04(echoPin, trigPin);
 
 long distance;
-int pos;
+int pos = 90;
 
 void setup(){
   myServo.attach(servoPin);
@@ -21,6 +21,7 @@ void setup(){
   pinMode(enA, OUTPUT);
   pinMode(DIRA, OUTPUT);
   pinMode(DIRB, OUTPUT);
+  myServo.write(pos);
 }
 
 void loop(){
@@ -31,7 +32,7 @@ void loop(){
   distance = ultraSonicSensor.distance();
   
   if (distance <= 15){
-    for (pos = 90; pos <=135; pos += 1){ // turn left
+    for (pos = 90; pos <= 135; pos += 1){ // turn left
       myServo.write(pos);
       delay(20);
     }
@@ -61,7 +62,7 @@ void loop(){
       delay(20);
     }
     delay(1000);
-    for (pos = 90; pos <=135; pos += 1){ // turn left to come on original path
+    for (pos = 90; pos <= 135; pos += 1){ // turn left to come on original path
       myServo.write(pos);
       delay(20);
     }
