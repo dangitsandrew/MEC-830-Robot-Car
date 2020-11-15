@@ -51,7 +51,6 @@ void loop()   /*----( LOOP: RUNS CONSTANTLY )----*/
  digitalWrite(dir1, LOW);
  digitalWrite(dir2, HIGH);
  analogWrite(speedPin,mSpeed);
- Serial.println("2");
  break;
     }
     irrecv.resume(); // receive the next value 
