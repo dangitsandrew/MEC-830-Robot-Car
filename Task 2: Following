@@ -56,7 +56,7 @@ void loop() {
     change = map(diff, 0, 600, 0, 60);
     
     //Left turn
-    if(read1 > light2 && diff > threshold){
+    if(read1 > read2 && diff > threshold){
       pos = pos + change;
       if (pos >= 150){pos = 150;}
       myservo.write(pos);
@@ -64,7 +64,7 @@ void loop() {
     }
 
     //Right turn
-    if(read1 < light2 && diff > threshold){
+    if(read1 < read2 && diff > threshold){
       pos = pos - change;
       if (pos <= 30){pos = 30;}
       myservo.write(pos);
