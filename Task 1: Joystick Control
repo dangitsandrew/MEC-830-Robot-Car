@@ -27,7 +27,7 @@ void loop() {
   joyposy = analogRead(yjoy);
   
   if( (joyposy > 527) && (joyposy < 533)){
-    analogwrite(ENABLE, LOW);
+    analogWrite(ENABLE, LOW);
   }
 
   else{
