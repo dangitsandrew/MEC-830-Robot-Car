@@ -36,7 +36,7 @@ void loop(){
       myServo.write(pos);
       delay(20);
     }
-    delay(1000);
+    delay(500);
     for (pos = 135; pos >= 90; pos -= 1){ // go straight diagonally
       myServo.write(pos);
       delay(20);
@@ -46,7 +46,7 @@ void loop(){
       myServo.write(pos);
       delay(20);
     }
-    delay(1000);
+    delay(500);
     for(pos = 45; pos <= 90; pos += 1){ // go straight in parallel with original path
       myServo.write(pos);
       delay(20);
@@ -56,7 +56,7 @@ void loop(){
       myServo.write(pos);
       delay(20);
     }
-    delay(1000);
+    delay(500);
     for(pos = 45; pos <= 90; pos += 1){ // go straight diagonally towards original path
       myServo.write(pos);
       delay(20);
@@ -66,7 +66,7 @@ void loop(){
       myServo.write(pos);
       delay(20);
     }
-    delay(1000);
+    delay(500);
     for (pos = 135; pos >= 90; pos -= 1){ // go straight to continue on original path
       myServo.write(pos);
       delay(20);
