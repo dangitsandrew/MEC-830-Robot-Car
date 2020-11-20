@@ -20,6 +20,9 @@ void setup() {
   pinMode(ENABLE, OUTPUT);
   pinMode(DIRA, OUTPUT);
   pinMode(DIRB, OUTPUT);
+  
+  pinMode(light1, INPUT_PULLUP);
+  pinMode(light2, INPUT_PULLUP);
 
   Serial.begin(9600);
 
