@@ -1,0 +1,81 @@
+#include <Servo.h>
+
+//DC MOTOR
+#define ENABLE 5
+#define DIRA 3
+#define DIRB 4
+int fan = 255;
+int fan1 = 0;
+
+//SENSORS
+int light1 = A0;
+int light2 = A1;
+int read1;
+int read2;
+
+int tolerance = 50;
+
+
+//SERVO
+Servo myservo;
+int pos = 90;
+int change;
+
+
+void setup() {
+  Serial.begin (9600);
+  pinMode(ENABLE, OUTPUT);
+  pinMode(DIRA, OUTPUT);
+  pinMode(DIRB, OUTPUT);
+
+
+  pinMode(light1, INPUT);
+  pinMode(light2, INPUT);
+  
+  myservo.attach(6);
+  myservo.write(90);
+
+
+}
+
+void loop() {
+
+
+  int read1 = analogRead(light1); // read the value of sensor 1
+  int read2 = analogRead(light2); // read the value of sensor 2
+  Serial.print(read1);
+  delay (1000);
+  Serial.print(read2);
+  delay(1000);
+
+  
+ if((abs(read1 - read2) <= tolerance) || (abs(read2 - read1) <= tolerance)) {
+    analogWrite(ENABLE, fan1);
+  } 
+
+  else {    
+    if(read1 > read2)
+    {
+      pos =pos-20;
+      digitalWrite(DIRA, HIGH);
+      digitalWrite(DIRB, LOW);
+      analogWrite(ENABLE, fan);
+      
+    }
+    if(read1 < read2) 
+    {
+       pos =pos+20;
+      digitalWrite(DIRA, LOW);
+      digitalWrite(DIRB, HIGH);
+      analogWrite(ENABLE, fan);
+    }
+  }
+ 
+    
+  if(pos > 180) { pos = 180; } // reset to 180 if it goes higher
+  if(pos < 0) { pos = 0; } // reset to 0 if it goes lower
+  
+  myservo.write(pos);
+  delay(25);
+    
+}
