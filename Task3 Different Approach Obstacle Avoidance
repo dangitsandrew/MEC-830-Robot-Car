@@ -56,6 +56,25 @@ delay(40);
   if(distanceR>=distanceL)
   {
     turnRight();
+    delay(1000);
+    
+    moveStop();
+    delay(1000);
+    
+    turnLeft();
+    delay(1000);
+
+    moveStop();
+    delay(1000);
+    
+    turnLeft();
+    delay(1000);
+
+    moveStop();
+    delay(1000);
+    
+    turnRight();
+    delay(1000);  
    
   }
   else
